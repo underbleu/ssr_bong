@@ -22,7 +22,7 @@ const config = {
 
   // Anything(library codes...) that's inside the node_modules will not be included of our server-bundle.js file
   // Because node-environment use node_modules unlike browser-environment
-  // So server-bundle.js will be smaller and webpack process will be faster
+  // So server-bundle.js will be smaller and initial webpack startup time will be faster
   externals: [webpackNodeExternals()],
 }
 

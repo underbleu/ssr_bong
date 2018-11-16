@@ -1,7 +1,5 @@
 import express from 'express'
-import React from 'react'
-import { renderToString } from 'react-dom/server'
-import Home from './client/components/Home'
+import renderer from './helpers/renderer'
 
 const app = express()
 
@@ -9,19 +7,7 @@ const app = express()
 // then, we don't need to specify directory on <script src="bundle.js">
 app.use(express.static('public'))
 app.get('/', (requestAnimationFrame, res) => {
-  // Render as a string
-  const content = renderToString(<Home />)
-
-  const html = `
-    <html>
-      <head></head>
-      <body>
-        <div id="root">${content}</div>
-        <script src="bundle.js"></script>
-      </body>
-    </html>
-  `
-  res.send(html)
+  res.send(renderer())
 })
 
 app.listen(3000, () => {

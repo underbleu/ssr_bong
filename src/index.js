@@ -6,7 +6,7 @@ const app = express()
 // Set "public" as a static file directory
 // then, we don't need to specify directory on <script src="bundle.js">
 app.use(express.static('public'))
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.send(renderer(req)) // req: Let StaticRouter know current path
 })
 

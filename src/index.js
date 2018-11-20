@@ -1,5 +1,6 @@
 import express from 'express'
 import renderer from './helpers/renderer'
+import createStore from './helpers/createStore'
 
 const app = express()
 
@@ -7,7 +8,11 @@ const app = express()
 // then, we don't need to specify directory on <script src="bundle.js">
 app.use(express.static('public'))
 app.get('*', (req, res) => {
-  res.send(renderer(req)) // req: Let StaticRouter know current path
+  const store = createStore()
+
+  // Some logic to initialize and load data into the store
+
+  res.send(renderer(req, store)) // req: Let StaticRouter know current path
 })
 
 app.listen(3000, () => {

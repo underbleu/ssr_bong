@@ -27,7 +27,8 @@ const mapStateToProps = state => ({
   users: state.users,
 })
 
-const loadData = () => console.log('load some data')
+// working with Redux manually by calling dispatch
+const loadData = store => store.dispatch(fetchUsers())
 
 export { loadData }
 export default connect(mapStateToProps, { fetchUsers })(UsersList)

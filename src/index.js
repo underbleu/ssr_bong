@@ -16,13 +16,16 @@ app.get('*', (req, res) => {
   /**
    * matchRoutes
    * 1. useful on the server for preloading data
-   * 2. Before rendering the next page, load up all the data with "loading"
+   * 2. Before rendering the next page, load up all the data with "loading indicator"
    */
-  matchRoutes(Routes, req.path).map(({ route }) => {
-    return route.loadData ? route.loadData() : null
+  const promises = matchRoutes(Routes, req.path).map(({ route }) => {
+    return route.loadData ? route.loadData(store) : null // loadData functions will habe reference to server side redux store
   })
 
-  res.send(renderer(req, store)) // req: Let StaticRouter know current path
+  // After all data loading finished, Render the application
+  Promise.all(promises).then(() => {
+    res.send(renderer(req, store)) // req: Let StaticRouter know current path
+  })
 })
 
 app.listen(3000, () => {

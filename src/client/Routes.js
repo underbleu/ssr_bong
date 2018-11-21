@@ -1,16 +1,15 @@
 import React from 'react'
 import HomePage from './pages/HomePage'
-import UsersListPage, { loadData } from './pages/UsersListPage'
+import UsersListPage from './pages/UsersListPage'
 
 export default [
   {
+    ...HomePage,
     path: '/',
-    component: HomePage,
     exact: true,
   },
   {
-    loadData,
+    ...UsersListPage,
     path: '/users',
-    component: UsersListPage,
   },
 ]

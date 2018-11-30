@@ -1,15 +1,31 @@
 import 'babel-polyfill'
 import express from 'express'
 import { matchRoutes } from 'react-router-config'
+import proxy from 'express-http-proxy'
 import Routes from './client/Routes'
 import renderer from './helpers/renderer'
 import createStore from './helpers/createStore'
 
 const app = express()
 
-// Set "public" as a static file directory
+/**
+ * 1. Any request begins with '/api', send it to the proxy server
+ * 
+ * - proxyReqOptDecorator: Override request options before issuing the proxyRequest
+ * - x-forwarded-host: This header is used for debugging, statistics, and generating location-dependent content
+ * and by design it exposes privacy sensitive information, such as the IP address of the client.
+ */
+app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
+  proxyReqOptDecorator(opts) {
+    opts.headers['x-forwarded-host'] = 'localhost:3000'
+    return opts
+  }
+}))
+
+// 2. Set "public" as a static file directory.
 // then, we don't need to specify directory on <script src="bundle.js">
 app.use(express.static('public'))
+
 app.get('*', (req, res) => {
   const store = createStore()
 

@@ -25,8 +25,7 @@ app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
 app.use(express.static('public'))
 
 app.get('*', (req, res) => {
-  const store = createStore()
-
+  const store = createStore(req)
   /**
    * matchRoutes
    * 1. useful on the server for preloading data

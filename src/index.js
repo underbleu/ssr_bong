@@ -37,7 +37,14 @@ app.get('*', (req, res) => {
 
   // After all data loading finished, Render the application
   Promise.all(promises).then(() => {
-    res.send(renderer(req, store)) // req: Let StaticRouter know current path
+    const context = {}
+    const content = renderer(req, store, context)
+
+    if (context.notFound) {
+      res.status(404)
+    }
+
+    res.send(content) // req: Let StaticRouter know current path
   })
 })
 

@@ -10,10 +10,8 @@ const app = express()
 
 /**
  * 1. Any request begins with '/api', send it to the proxy server
- * 
  * - proxyReqOptDecorator: Override request options before issuing the proxyRequest
- * - x-forwarded-host: This header is used for debugging, statistics, and generating location-dependent content
- * and by design it exposes privacy sensitive information, such as the IP address of the client.
+ * - x-forwarded-host: This header is used for debugging, statistics, and generating location-dependent content and by design it exposes privacy sensitive information, such as the IP address of the client.
  */
 app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
   proxyReqOptDecorator(opts) {
@@ -35,7 +33,7 @@ app.get('*', (req, res) => {
    * 2. Before rendering the next page, load up all the data with "loading indicator"
    */
   const promises = matchRoutes(Routes, req.path).map(({ route }) => {
-    return route.loadData ? route.loadData(store) : null // loadData functions will habe reference to server side redux store
+    return route.loadData ? route.loadData(store) : null // loadData functions will have reference to server side redux store
   })
 
   // After all data loading finished, Render the application

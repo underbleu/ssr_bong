@@ -7,13 +7,27 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { renderRoutes } from 'react-router-config'
+import axios from 'axios'
 import Routes from './Routes'
 import reducers from './reducers'
+
+/**
+ * Customize behavior of Axios depending on whether we are running on the client or the server
+ * 
+ * Create custom Axios instance and Inject into thunk
+ * Whenever we try to make network request,
+ * we receive that customize Axios instance rather than import the actual module itself
+ * So we can freely make request without worrying whether we are running it on the server or client
+ */
+
+const axiosInstance = axios.create({
+  baseURL: '/api', // Automatically prepend '/api' on to the baseURL
+})
 
 const store = createStore(
   reducers,
   window.INITIAL_STATE, // Use Server-redux data to initialize Client-redux
-  applyMiddleware(thunk)
+  applyMiddleware(thunk.withExtraArgument(axiosInstance)), // injecting a custom Axios instance
 )
 
 ReactDOM.hydrate(

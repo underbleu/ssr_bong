@@ -11,7 +11,7 @@ const app = express()
 /**
  * 1. Any request begins with '/api', send it to the proxy server
  * - proxyReqOptDecorator: Override request options before issuing the proxyRequest
- * - x-forwarded-host: This header is used for debugging, statistics, and generating location-dependent content and by design it exposes privacy sensitive information, such as the IP address of the client.
+ * - x-forwarded-host: After login, Identifying the original host requested by the client and redirect to it(not to api URL)
  */
 app.use('/api', proxy('http://react-ssr-api.herokuapp.com', {
   proxyReqOptDecorator(opts) {

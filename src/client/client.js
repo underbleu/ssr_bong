@@ -31,6 +31,12 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(thunk.withExtraArgument(axiosInstance))), // injecting a custom Axios instance
 )
 
+/**
+ * hydrate(): Same as render(), but is used to hydrate a container whose HTML contents were rendered by ReactDOMServer
+ * then React will attempt to attach event listeners to the existing markup
+ * to treat mismatches between serverDOM and clientDOM as bugs and fix them
+ */
+
 ReactDOM.hydrate(
   <Provider store={store}>
     <BrowserRouter>

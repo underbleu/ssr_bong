@@ -13,7 +13,7 @@ const config = {
     path: path.resolve(__dirname, 'public')
     // path: path module helper(nodeJS)
     // __dirname: reference to the current working directory the our project is being excuted in
-    // 'build' directory: will be generated automatically
+    // 'public' directory: will be generated automatically
   }
 }
 
